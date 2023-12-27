@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
 import { toast } from 'react-toastify';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import BlogBox from '../components/Home/BlogBox';
 import { db } from '../firebase/firebase';
@@ -65,12 +65,12 @@ const Home = ({ user }) => {
 
   return (
 
-    <div className=' bg-gray-100'>
+    <div className=' bg-gray-100 '>
       <div className=' mt-10 w-[100%] md:w-[87%] mx-auto'>
         <h1 className=' text-md font-medium font-sans py-2 text-left border-b-2 border-gray-300 mx-4 pl-2'>Trending</h1>
         <Carusel blogData={blogData}/>
       </div>
-      <div className=' flex flex-col md:flex-row w-[100%] h-auto  '>
+      <div className=' flex flex-col md:flex-row w-[100%] h-auto mt-10 '>
 
         <div className=' w-[100%] md:w-[70%]'>
           <div className=' w-[100%] md:ml-[5rem] md:w-[87%] mx-auto p-2'>

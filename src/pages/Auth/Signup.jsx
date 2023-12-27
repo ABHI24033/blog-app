@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // icons
 import { FaUserAlt } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
@@ -15,52 +15,59 @@ import { toast } from 'react-toastify';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../../firebase/firebase';
 
-const Signup = ({setActive}) => {
-    const navigate=useNavigate();
-    const initialState={
-        name:'',
-        email:'',
-        password:'',
-        confirmPassword:'',
+const Signup = ({ setActive }) => {
+    const navigate = useNavigate();
+    const initialState = {
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
     }
-    const [state,setState]=useState(initialState);
-    const [seePassword,setSeePassword]=useState(false);
-    const [seeconfirmPassword,setSeeconfirmPassword]=useState(false);
-    function ToggleEyebutton(){
+    const [state, setState] = useState(initialState);
+    const [seePassword, setSeePassword] = useState(false);
+    const [seeconfirmPassword, setSeeconfirmPassword] = useState(false);
+    function ToggleEyebutton() {
         setSeePassword(!seePassword);
     }
 
-    const {name,email,password,confirmPassword}=state;
-    const handelChange=(e)=>{
-        setState({...state,[e.target.name]:e.target.value});
+    const { name, email, password, confirmPassword } = state;
+    const handelChange = (e) => {
+        setState({ ...state, [e.target.name]: e.target.value });
     }
-    
-    const handelAuth=async(e)=>{
+
+    const handelAuth = async (e) => {
         e.preventDefault();
-        if(password!== confirmPassword) {
+        if (password !== confirmPassword) {
             return toast.error("Password and confirm password are not same")
         }
-        if(password.length<6){
+        if (password.length < 6) {
             return toast.error("Password must be greater than 6");
         }
-        if(name&&email&&password){
-            const {user}=await createUserWithEmailAndPassword(auth,email,password);
-            await updateProfile(user,{displayName:name});
-            navigate('/');
-            setActive("Home");
-        }else{
+        if (name && email && password) {
+            try {
+                const { user } = await createUserWithEmailAndPassword(auth, email, password);
+                await updateProfile(user, { displayName: name });
+                navigate('/');
+                setActive("Home");
+                toast.success("Sign-up successfully");
+            } catch (error) {
+                console.log("error from signup ",error.message);
+                toast.error(error.message)
+            }
+
+        } else {
             toast.error("Please fill all fields");
         }
     }
     return (
         <div className=' mx-auto my-6 ' >
-            <div className=' w-[90%] md:w-[60%] h-[30rem] shadow-lg rounded-lg shadow-black mx-auto flex flex-col items-center justify-center'>
+            <div className=' w-[90%] md:w-[60%] h-[30rem] mt-[6rem] shadow-lg rounded-lg shadow-black mx-auto flex flex-col items-center justify-center'>
                 <h1 className=' text-2xl font-bold font-sans my-6'>SIGN-UP</h1>
 
                 <div className=' flex items-center flex-row-reverse justify-center w-[90%]'>
 
                     <div className=" hidden md:flex flex-col items-center justify-center">
-                        <img src={signupImg} />
+                        <img src={signupImg} alt='signupImg'/>
                         {/* <Link className=' underline'>Alredy have an account</Link> */}
                     </div>
 
@@ -87,7 +94,7 @@ const Signup = ({setActive}) => {
                         </div>
                         <div className=' bg-white mx-2 w-[70%] flex items-center justify-center border-b-2 border-black'>
                             <RiLockPasswordFill />
-                            <input type={`${seePassword?'text':'password'}`}
+                            <input type={`${seePassword ? 'text' : 'password'}`}
                                 className='px-3 py-2 w-[90%] outline-none placeholder:text-gray-700 '
                                 placeholder='Password'
                                 name='password'
@@ -95,15 +102,15 @@ const Signup = ({setActive}) => {
                                 onChange={handelChange}
                             />
                             {
-                                seePassword===false?<FaEye className=' mr-2 cursor-pointer '
-                                onClick={()=>ToggleEyebutton()}
-                                />:<FaEyeSlash className=' mr-2 cursor-pointer' onClick={()=>ToggleEyebutton()}/>
+                                seePassword === false ? <FaEye className=' mr-2 cursor-pointer '
+                                    onClick={() => ToggleEyebutton()}
+                                /> : <FaEyeSlash className=' mr-2 cursor-pointer' onClick={() => ToggleEyebutton()} />
                             }
-                           
+
                         </div>
                         <div className=' bg-white mx-2 w-[70%] flex items-center justify-center border-b-2 border-black'>
                             <RiLockPasswordFill />
-                            <input type={`${seeconfirmPassword?'text':'password'}`}
+                            <input type={`${seeconfirmPassword ? 'text' : 'password'}`}
                                 className='px-3 py-2 w-[90%] outline-none placeholder:text-gray-700 '
                                 placeholder='Confirm Password'
                                 name='confirmPassword'
@@ -111,13 +118,13 @@ const Signup = ({setActive}) => {
                                 onChange={handelChange}
                             />
                             {
-                                seeconfirmPassword===false?<FaEye className=' mr-2 cursor-pointer '
-                                onClick={()=>setSeeconfirmPassword(!seeconfirmPassword)}
-                                />:<FaEyeSlash className=' mr-2 cursor-pointer' onClick={()=>setSeeconfirmPassword(!seeconfirmPassword)}/>
+                                seeconfirmPassword === false ? <FaEye className=' mr-2 cursor-pointer '
+                                    onClick={() => setSeeconfirmPassword(!seeconfirmPassword)}
+                                /> : <FaEyeSlash className=' mr-2 cursor-pointer' onClick={() => setSeeconfirmPassword(!seeconfirmPassword)} />
                             }
-                           
+
                         </div>
-                        
+
                         <div>
                             <button className=' bg-blue-700 active:bg-blue-400 hover:bg-blue-600 px-6 py-2 text-white rounded-md'>Sign-Up</button>
                         </div>

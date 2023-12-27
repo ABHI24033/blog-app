@@ -7,8 +7,11 @@ import { Link } from 'react-router-dom';
 const Carusel = ({ blogData }) => {
     var settings = {
         dots: true,
-        infinite: false,
-        speed: 100,
+        infinite: true,
+        speed: 1000,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        cssEase: "linear",
         slidesToShow: 4,
         slidesToScroll: 1,
         initialSlide: 0,

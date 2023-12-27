@@ -17,7 +17,7 @@ import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
 import { auth } from './firebase/firebase';
 import { signOut } from 'firebase/auth';
-import Spinner from './components/Spinner';
+// import Spinner from './components/Spinner';
 import ForgotPassword from './components/ForgotPassword';
 
 
@@ -44,7 +44,7 @@ function App() {
     })
   }
   return (
-    <div className="App">
+    <div className="App overflow-x-hidden">
       <Header setActive={setActive} active={active} user={user} handleLogout={handleLogout}/>
       <ToastContainer position='top-center'/>
       <Routes>
